@@ -57,7 +57,7 @@ module.exports = (app) => {
   /********POST new_user**********/
   app.post('/users/adduser', (req, res) => {
     // console.log(req.body);
-    const { firstname, lastname, username, company, designation, isEmployer, email, password } = req.body;
+    const { firstname, lastname, company, designation, isEmployer, email, password } = req.body;
     var time = moment().valueOf();
     if (isEmployer === true) {
       var user = new User({
@@ -74,12 +74,13 @@ module.exports = (app) => {
       var user = new User({
         firstname,
         lastname,
-        username,
         email,
         password,
         joined: moment(time).format('ll')
       });
     }
+
+    // console.log(user);
 
     user.save().then((user) => {
       // res.send(docs);
@@ -137,20 +138,20 @@ module.exports = (app) => {
 
 
   app.post('/users/login', (req, res) => {
-    var {email, password, username} = req.body;
-    // console.log(username, password);
-    var type, data;
-    if (email) {
-      type = 'email';
-      data = email;
-      // console.log('Passed credential is ', type, data);
-    } else if (username) {
-      type = 'username';
-      data = username;
-      // console.log('Passed credential is ', type, data);
-    }
+    var {email, password} = req.body;
+    // console.log(email, password);
+    // var type, data;
+    // if (email) {
+    //   type = 'email';
+    //   data = email;
+    //   // console.log('Passed credential is ', type, data);
+    // } else if (username) {
+    //   type = 'username';
+    //   data = username;
+    //   // console.log('Passed credential is ', type, data);
+    // }
 
-    User.findByCredentials(type, data, password).then((user) => {
+    User.findByCredentials(email, password).then((user) => {
       // console.log(user);
       return user.generateAuthToken().then((token) => {
         // console.log(user);

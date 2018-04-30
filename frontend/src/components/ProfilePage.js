@@ -28,10 +28,10 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    // console.log('Profilepage Component Mounted');
+    console.log('Profilepage Component Mounted');
     // console.log(this.props.location.state);
     // console.log(this.state);
-    // console.log(this.props);
+    console.log(this.props);
   }
 
   handleIt(string) {
@@ -54,7 +54,7 @@ class ProfilePage extends Component {
 
   handleTabPage(tab) {
     // console.log('In profile', tab);
-    let profile = this.state.firstname;
+    let profile = this.state.firstname.toLowerCase() + this.state.lastname.toLowerCase();
     tab = tab.toLowerCase();
     // console.log(tab);
     if (tab === 'logout') {

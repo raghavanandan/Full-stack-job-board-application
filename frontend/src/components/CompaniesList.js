@@ -29,16 +29,16 @@ class CompaniesList extends Component{
     });
   }
 
-  handleSearch(string) {
+  handleSearch(company) {
     // console.log(string);
-    string = string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-    API.getCompany(string).then((data) => {
-        // this.props.history.push({
-        //   // pathname: `companies/${search}`,
-        //   pathname: `/companies`,
-        //   state: search
-        // });
-        this.setState({searchCompany: data}, () => console.log(this.state.companies));
+    company = company.charAt(0).toUpperCase() + company.slice(1).toLowerCase();
+    this.props.location.state.search = company;
+    API.getCompany(company).then((data) => {
+        this.props.history.push({
+          pathname: `/companies/${company}`,
+          state: this.props.location.state
+        });
+        // this.setState({searchCompany: data}, () => console.log(this.state.companies));
         // console.log(data);
     }).catch((err) => {
       this.setState({error: err});
@@ -48,7 +48,7 @@ class CompaniesList extends Component{
 
   handleTabPage(tab) {
     // console.log(tab);
-    let profile = this.props.location.state.firstname;
+    let profile = this.props.location.state.firstname.toLowerCase() + this.props.location.state.lastname.toLowerCase();
     // console.log(profile);
     tab = tab.toLowerCase();
     // console.log(tab);
@@ -74,12 +74,8 @@ class CompaniesList extends Component{
   }
 
   gotoCompany(company) {
+    // console.log(company);
     this.props.location.state.search = company;
-    // let data = {
-    //   company,
-    //   isLoggedIn: this.state.isLoggedIn
-    // };
-    // console.log(data);
 
     this.props.history.push({
       pathname: `/companies/${company}`,

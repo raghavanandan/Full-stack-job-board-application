@@ -11,11 +11,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  username: {
-    type: String,
-    unique: true,
-    sparse: true
-  },
   email: {
     type: String,
     trim: true,
@@ -102,25 +97,25 @@ userSchema.statics.findByToken = function (token) {
   })
 }
 
-userSchema.statics.findByCredentials = function (type, data, password) {
+userSchema.statics.findByCredentials = function (email, password) {
   var User = this;
   // console.log(email);
   // console.log(password);
-  var obj = {};
-  if (type === 'email') {
-    obj = {
-      email: data
-    }
-  } else if (type === 'username'){
-    obj = {
-      username: data
-    }
-  }
+  // var obj = {};
+  // if (type === 'email') {
+  //   obj = {
+  //     email: data
+  //   }
+  // } else if (type === 'username'){
+  //   obj = {
+  //     username: data
+  //   }
+  // }
 
   // console.log('Final passed data is', obj);
 
 
-  return User.findOne(obj).then((user) => {
+  return User.findOne({email}).then((user) => {
     if (!user) {
       return Promise.reject();
     }

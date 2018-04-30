@@ -40,7 +40,7 @@ class JobsPage extends Component {
 
   handleTabPage(tab) {
     // console.log(tab);
-    let profile = this.props.location.state.firstname;
+    let profile = this.props.location.state.firstname.toLowerCase() + this.props.location.state.lastname.toLowerCase();
     // console.log(profile);
     tab = tab.toLowerCase();
     // console.log(tab);

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 // import SearchBox from './SearchBox';
 // import * as API from '../api/API';
 
@@ -10,7 +10,8 @@ class Navbar extends Component {
       search: '',
       type: 'jobs',
       isLoggedIn: false,
-      isEmployer: false
+      isEmployer: false,
+      redirect: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,7 +19,7 @@ class Navbar extends Component {
   }
 
   componentWillMount(){
-    // console.log(this.props);
+    console.log(this.props);
     this.setState({isLoggedIn: this.props.status});
   }
 
@@ -39,12 +40,21 @@ class Navbar extends Component {
     this.props.chooseTab(tab);
   }
 
+  handleRedirect(page) {
+    // console.log(page);
+    if (page === 'join') {
+      this.setState({redirect: 'signup'});
+    } else if (page === 'login') {
+      this.setState({redirect: 'login'});
+    }
+  }
+
   renderLogoutMenu(){
     return (
       <nav>
         <div>
-          <button>Join</button>
-          <button>Login</button>
+          <button onClick={() => this.handleRedirect('join')}>Join</button>
+          <button onClick={() => this.handleRedirect('login')}>Login</button>
         </div>
       </nav>
     )
@@ -73,7 +83,11 @@ class Navbar extends Component {
   }
 
   render() {
-    if (this.state.isLoggedIn) {
+    if (this.state.redirect === 'signup') {
+      return <Redirect to="/signup" />
+    } else if (this.state.redirect === 'login') {
+      return <Redirect to="/login" />
+    } else if (this.state.isLoggedIn) {
       return this.renderLoginMenu();
     } else {
       return this.renderLogoutMenu();

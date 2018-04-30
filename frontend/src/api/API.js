@@ -84,6 +84,7 @@ export const postJob = (data) => {
     }),
     body: JSON.stringify(data)
   }).then((res) => {
+    // console.log(res);
     return res.status;
   }).catch((err) => {
     return 400;
@@ -113,9 +114,12 @@ export const addUser = (data) => {
       'Content-Type': 'application/json'
     }),
     body: JSON.stringify(data)
-  }).then((res) => {
-    return res;
+  })
+  .then((res) => res.json())
+  .then((resJSON) => {
+    return resJSON;
   }).catch((err) => {
+    // console.log(typeof err);
     return err;
   })
 }

@@ -44,8 +44,8 @@ class Dashboard extends Component {
 
   handleTabPage(tab) {
     // console.log('In profile', tab);
-    let profile = this.props.location.state.firstname;
-    tab = tab.toLowerCase();
+    let profile = this.props.location.state.firstname.toLowerCase() + this.props.location.state.lastname.toLowerCase();
+    // tab = tab.toLowerCase();
     // console.log(tab);
     if (tab === 'logout') {
       API.logout(this.props.location.state.tokens[0]).then((response) => {
@@ -94,9 +94,16 @@ class Dashboard extends Component {
     }
     if (this.state.jobs && !this.state.error) {
       return this.renderPostedJobs();
-    } else {
+    } else if (this.state.error) {
       return (
-        <h3>No jobs posted yet</h3>
+        <div>
+          <Navbar
+            onSearch={this.handleIt}
+            status={this.state.isLoggedIn}
+            data={this.props.location.state}
+            chooseTab={this.handleTabPage} />
+            <h3>No jobs posted yet</h3>
+        </div>
       );
     }
   }

@@ -3,7 +3,9 @@ import { Route, withRouter } from 'react-router-dom';
 // import axios from 'axios';
 // import SearchBox from './components/SearchBox';
 import Navbar from './components/Navbar';
+import HomePage from './components/HomePage';
 import SignUp from './components/SignUp';
+import Login from './components/Login';
 import ProfilePage from './components/ProfilePage';
 import Dashboard from './components/Dashboard';
 // import Profile from './components/Profile';
@@ -15,7 +17,7 @@ import WriteReview from './components/WriteReview';
 // import Overview from './components/Overview';
 import Reviews from './components/Reviews';
 import Postings from './components/Postings';
-import * as API from './api/API';
+// import * as API from './api/API';
 import './App.css';
 
 class App extends Component {
@@ -28,7 +30,7 @@ class App extends Component {
     }
 
     // this.handleSearch = this.handleSearch.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this);
   }
 
   componentWillMount() {
@@ -40,50 +42,50 @@ class App extends Component {
   //   console.log(this.state);
   // }
 
-  handleLogin(string) {
+  // handleLogin(string) {
     // console.log('Inside APP');
     // console.log(string);
-    const {username, email, password} = string;
-    // console.log(username, password);
-    if (email) {
-      // console.log('Email is present');
-      API.getUser({email, password}).then((data) => {
-        if (!data) {
-          this.setState({isLoggedIn: false});
-          this.props.history.push({
-            pathname: '/',
-            state: ''
-          });
-        } else {
-          this.setState({isLoggedIn: true, isEmployer: true});
-          data.isLoggedIn = true;
-          // console.log(data.isLoggedIn);
-          this.props.history.push({
-            pathname: `/in/${data.firstname}`,
-            state: data
-          })
-        }
-      })
-    } else if (username) {
-      // console.log('Username is present');
-      API.getUser({username, password}).then((data) => {
-        if (!data) {
-          this.setState({isLoggedIn: false});
-          this.props.history.push('/');
-          // return console.log('No data');
-        }
-        this.setState({isLoggedIn: true, isEmployer: false});
-        data.isLoggedIn = true;
-        // console.log('Pushing');
-        this.props.history.push({
-          pathname: `/in/${data.username}`,
-          state: data
-        })
-      }).catch((err) => {
-        console.log(err);
-      })
-    }
-  }
+    // const {username, email, password} = string;
+    // // console.log(username, password);
+    // if (email) {
+    //   // console.log('Email is present');
+    //   API.getUser({email, password}).then((data) => {
+    //     if (!data) {
+    //       this.setState({isLoggedIn: false});
+    //       this.props.history.push({
+    //         pathname: '/',
+    //         state: ''
+    //       });
+    //     } else {
+    //       this.setState({isLoggedIn: true, isEmployer: true});
+    //       data.isLoggedIn = true;
+    //       // console.log(data.isLoggedIn);
+    //       this.props.history.push({
+    //         pathname: `/in/${data.firstname}`,
+    //         state: data
+    //       })
+    //     }
+    //   })
+    // } else if (username) {
+    //   // console.log('Username is present');
+    //   API.getUser({username, password}).then((data) => {
+    //     if (!data) {
+    //       this.setState({isLoggedIn: false});
+    //       this.props.history.push('/');
+    //       // return console.log('No data');
+    //     }
+    //     this.setState({isLoggedIn: true, isEmployer: false});
+    //     data.isLoggedIn = true;
+    //     // console.log('Pushing');
+    //     this.props.history.push({
+    //       pathname: `/in/${data.username}`,
+    //       state: data
+    //     })
+    //   }).catch((err) => {
+    //     console.log(err);
+    //   })
+    // }
+  // }
 
 
   // handleSearch(search, category) {
@@ -178,12 +180,16 @@ class App extends Component {
               </div>
               <br />
               <div>
-                <SignUp {...props} onLogin={this.handleLogin} />
+                {/* <SignUp {...props} onLogin={this.handleLogin} /> */}
+                <HomePage />
               </div>
             </div>
           )} />
 
           {/* <Route path={profileurl} component={ProfilePage} /> */}
+          {/* <Route exact path="/signup" render={(props) => <SignUp {...props} />} /> */}
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/login" render={(props) => <Login {...props} />} />
           <Route exact path={profileurl} render={(props) => <ProfilePage {...props} onSearch={this.handleSearch} />} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/jobs" component={JobsPage} />

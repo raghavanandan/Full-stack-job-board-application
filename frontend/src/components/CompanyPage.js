@@ -41,10 +41,10 @@ class CompanyPage extends Component {
 
   componentWillMount() {
     // console.log(this.props.location.state);
-    console.log(this.props);
+    // console.log(this.props);
     let company;
     if (this.props.location.state) {
-      company = this.props.location.state.company;
+      company = this.props.location.state.search;
       this.setState({company, isLoggedIn: this.props.location.state.isLoggedIn});
     } else {
       company = this.props.match.params.name;
@@ -53,7 +53,7 @@ class CompanyPage extends Component {
     // console.log(this.state.company);
 
     API.getCompany(company).then((data) => {
-      // console.log(data);
+      console.log(data);
       if (data !== 400) {
         this.setState({
           about: data.about,

@@ -52,17 +52,18 @@ module.exports = (app) => {
     // const {name} = req.params;
     // console.log(name);
     // console.log(req.body);
-    const {emailID} = req.body;
+    // const {emailID} = req.body;
     // console.log(emailID);
+    // console.log(req.body);
 
     var time = moment().valueOf();
     var job = new Job({
       jobID: req.body.jobID,
       designation: req.body.designation,
-      company: req.params.name,
+      company: req.body.name,
       postedBy: [{
         name: req.body.postedBy,
-        emailID: emailID
+        emailID: req.body.emailID
       }],
       postedOn: moment(time).format('ll'),
       description: req.body.description,
@@ -72,10 +73,10 @@ module.exports = (app) => {
       type: req.body.type
     });
 
-    console.log('Before save', job);
+    // console.log('Before save', job);
 
     job.save().then((docs) => {
-      console.log(docs);
+      // console.log(docs);
       res.send(docs);
     }).catch((err) => {
       res.status(400).send(err);
