@@ -7,11 +7,7 @@ const {User} = require('../models/users');
 
 module.exports = (app, upload) => {
 
-  cloudinary.config({
-    cloud_name: 'jobboard',
-    api_key: '834296229844959',
-    api_secret: '3vFqT0defzwuT6c7RuchG_YkuFY'
-  });
+  
 
   /********Get all_users**********/
   app.get('/users', (req, res) => {
@@ -208,7 +204,7 @@ module.exports = (app, upload) => {
         res.send(400).send(err);
       });
     })
-    
+
   });
 
   var authenticate = (req, res, next) => {
