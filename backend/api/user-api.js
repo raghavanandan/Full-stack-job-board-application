@@ -1,8 +1,17 @@
 const express = require('express');
 const moment = require('moment');
+// const multer = require('multer');
+// var upload = multer({ dest: '../uploads/' });
+const cloudinary = require('cloudinary').v2;
 const {User} = require('../models/users');
 
-module.exports = (app) => {
+module.exports = (app, upload) => {
+
+  cloudinary.config({
+    cloud_name: 'jobboard',
+    api_key: '834296229844959',
+    api_secret: '3vFqT0defzwuT6c7RuchG_YkuFY'
+  });
 
   /********Get all_users**********/
   app.get('/users', (req, res) => {
@@ -94,17 +103,18 @@ module.exports = (app) => {
 
   /********Update user_profile**********/
   app.patch('/users/updateprofile/:id', (req, res) => {
+    // console.log(req.body);
     const {id} = req.params;
-    const {firstname, lastname, email, designation, company} = req.body;
-    var user = {
-      firstname,
-      lastname,
-      email,
-      designation,
-      company
-    };
+    // const {firstname, lastname, designation, skills, location} = req.body;
+    // var user = {
+    //   firstname,
+    //   lastname,
+    //   skills,
+    //   designation,
+    //   location
+    // };
 
-    User.findByIdAndUpdate(id, {$set: user}, {new: true}).then((user) => {
+    User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
       if (!user) {
         return res.status(404).send();
       }
@@ -113,6 +123,93 @@ module.exports = (app) => {
       res.send(400).send(err);
     })
   })
+
+  /********Update user_skills**********/
+  app.patch('/users/updateskills/:id', (req, res) => {
+    // var {skills} = req.body;
+    const {id} = req.params;
+    // console.log(req.body);
+    // console.log(id);
+    // var skills = req.body.skills.split(',');
+    // skills = skills.map(Function.prototype.call, String.prototype.trim);
+    // console.log(skills);
+    // console.log(skills);
+    User.findByIdAndUpdate(id, {$set: req.body}, {new: true}).then((user) => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      return res.send(user);
+    }).catch((err) => {
+      res.send(400).send(err);
+    })
+  })
+
+  /********Update user_projects**********/
+  app.patch('/users/updateproject/:id', (req, res) => {
+    // console.log(req.body);
+    const {id} = req.params;
+
+    User.findByIdAndUpdate(id, {$push: {
+      projects: {
+        $each: [req.body],
+        $position: 0
+      }
+    }}, {new: true}).then((user) => {
+      if (!user) {
+        return res.status(404).send('No matching records')
+      }
+      return res.send(user);
+      // console.log(user);
+    }).catch((err) => {
+      res.status(400).send(err);
+    })
+  })
+
+  /********Update user_work_experience**********/
+  app.patch('/users/updatework/:id', (req, res) => {
+    // console.log(req.body);
+    const {id} = req.params;
+
+    User.findByIdAndUpdate(id, {$push: {
+      experience: {
+        $each: [req.body],
+        $position: 0
+      }
+    }}, {new: true}).then((user) => {
+      if (!user) {
+        return res.status(404).send('No matching records')
+      }
+      return res.send(user);
+      // console.log(user);
+    }).catch((err) => {
+      res.status(400).send(err);
+    })
+  })
+
+  /********Update user_avatar**********/
+  app.post('/users/avatar/:id', upload.single('file'), (req, res) => {
+    // console.log(req.file);
+    // console.log(req.data);
+    const {id} = req.params;
+    cloudinary.uploader.upload(req.file.path, (err, response) => {
+      if (err) {
+        return console.log(err);
+      }
+      var user = {
+        avatar: response.secure_url
+      }
+
+      User.findByIdAndUpdate(id, {$set: {avatar: response.secure_url}}, {new: true}).then((user) => {
+        if (!user) {
+          return res.status(404).send();
+        }
+        return res.send({url: response.secure_url});
+      }).catch((err) => {
+        res.send(400).send(err);
+      });
+    })
+    
+  });
 
   var authenticate = (req, res, next) => {
     var token = req.header('x-auth');
@@ -139,17 +236,6 @@ module.exports = (app) => {
 
   app.post('/users/login', (req, res) => {
     var {email, password} = req.body;
-    // console.log(email, password);
-    // var type, data;
-    // if (email) {
-    //   type = 'email';
-    //   data = email;
-    //   // console.log('Passed credential is ', type, data);
-    // } else if (username) {
-    //   type = 'username';
-    //   data = username;
-    //   // console.log('Passed credential is ', type, data);
-    // }
 
     User.findByCredentials(email, password).then((user) => {
       // console.log(user);

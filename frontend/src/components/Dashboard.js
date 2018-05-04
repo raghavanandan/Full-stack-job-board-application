@@ -12,6 +12,7 @@ class Dashboard extends Component {
       jobs: [],
       error: '',
       isHidden: true,
+      isEmployer: this.props.location.state.isEmployer,
       isLoggedIn: this.props.location.state.isLoggedIn,
       redirect: false
     }
@@ -23,17 +24,19 @@ class Dashboard extends Component {
     // console.log(this.props.location.state);
     // this.setState({isHidden: false});
     // console.log(this.state);
+    if (this.state.isEmployer) {
+      API.getPostedJobs(this.state.emailID).then((data) => {
+        // console.log(data);
+        if (data !== 404) {
+            this.setState({jobs: data});
+        } else {
+          this.setState({error: data})
+        }
+      }).catch((err) => {
+        this.setState({error: err});
+      });
+    }
 
-    API.getPostedJobs(this.state.emailID).then((data) => {
-      // console.log(data);
-      if (data !== 404) {
-          this.setState({jobs: data});
-      } else {
-        this.setState({error: data})
-      }
-    }).catch((err) => {
-      this.setState({error: err});
-    })
   }
 
   toggleView() {
@@ -92,7 +95,7 @@ class Dashboard extends Component {
     if (this.state.redirect) {
       return <Redirect to="/" />
     }
-    if (this.state.jobs && !this.state.error) {
+    if (this.state.jobs && !this.state.error && this.state.isEmployer) {
       return this.renderPostedJobs();
     } else if (this.state.error) {
       return (
@@ -105,6 +108,40 @@ class Dashboard extends Component {
             <h3>No jobs posted yet</h3>
         </div>
       );
+    } else {
+      return (
+        <div className="container">
+          <div className="navbar">
+            <Navbar
+              onSearch={this.handleIt}
+              status={this.state.isLoggedIn}
+              data={this.props.location.state}
+              chooseTab={this.handleTabPage} />
+          </div>
+
+          {/* <div className="cover">
+
+          </div> */}
+
+          <div className="container dashboard-content">
+            <div id="applied-jobs">
+
+            </div>
+
+            <div id="offers">
+
+            </div>
+
+            <div id="rejects">
+
+            </div>
+
+            <div id="success-rate">
+
+            </div>
+          </div>
+        </div>
+      )
     }
   }
 }

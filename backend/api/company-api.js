@@ -40,7 +40,25 @@ module.exports = (app) => {
       return res.send(docs);
     }).catch((err) => {
       res.status(400).send(err);
-    })
+    });
+  })
+
+  /*********GET company_size*********/
+  app.get('/size/:name', (req, res) => {
+    // const {name} = req.params;
+    // console.log(name);
+    const name = req.params.name;
+    // console.log(name);
+
+    Company.find({name}).then((doc) => {
+      if (!doc.length) {
+        return res.status(404).send('No companies');
+      }
+      // console.log(doc[0].size);
+      return res.send(doc[0]);
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
   })
 
 

@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+var upload = multer({ dest: '../uploads/' });
 const moment = require('moment');
 const cors = require('cors');
 
@@ -15,14 +17,16 @@ var app = express();
 app.use(cors());
 
 app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 // app.set('view engine', 'hbs');
 // app.use(express.static(path.join(__dirname + '/public')));
 
 companyAPI(app);
-userAPI(app);
-jobAPI(app);
+userAPI(app, upload);
+jobAPI(app, upload);
 
 
 // app.get('/reviews/:name', (req, res) => {

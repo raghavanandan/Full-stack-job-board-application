@@ -4,6 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"> -->
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -36,5 +42,41 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      function initMap() {
+        var input = document.getElementById('location');
+
+        // var autocomplete = new google.maps.places.Autocomplete(input);
+        // autocomplete.setComponentRestrictions(
+        //     {'country': ['us']});
+        var autocomplete = new google.maps.places.Autocomplete((input), {
+          types:['(cities)']
+        });
+        // autocomplete.setComponentRestrictions({'country': ['us']});
+
+        var infowindow = new google.maps.InfoWindow();
+        return autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          var place = autocomplete.getPlace();
+	        // console.log("place is "+place);
+	        // console.log("place_id "+place.name);
+          place.name;
+          document.getElementById('location').value = place.name;
+
+	        // console.log(place.geometry.location.lat());
+	        // console.log(place.geometry.location.lng());
+	        // document.getElementById('lat_custom').value = place.geometry.location.lat();
+	        // document.getElementById('lon_custom').value = place.geometry.location.lng();
+    });
+      }
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        
+      })
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2Ai-yI3VqZ91sA2SZjRJzmC3HEu92nU4&libraries=places" defer></script>
   </body>
 </html>

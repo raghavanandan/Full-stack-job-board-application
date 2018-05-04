@@ -7,9 +7,11 @@ import HomePage from './components/HomePage';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import ProfilePage from './components/ProfilePage';
+import EditProfile from './components/EditProfile';
 import Dashboard from './components/Dashboard';
 // import Profile from './components/Profile';
 import PostAJob from './components/PostAJob';
+import ApplyJob from './components/ApplyJob';
 import JobsPage from './components/JobsPage';
 import CompaniesList from './components/CompaniesList';
 import CompanyPage from './components/CompanyPage';
@@ -169,14 +171,14 @@ class App extends Component {
     // console.log('URL outside if', url);
       return (
         <div>
-          <div>
+          {/* <div> */}
             {/* <SearchBox onSearch={this.handleSearch} /> */}
             {/* <Navbar onSearch={this.handleSearch} /> */}
-          </div>
+          {/* </div> */}
           <Route exact path="/" render={(props) => (
             <div>
               <div>
-                <Navbar {...props} onSearch={this.handleSearch} status={this.state.isLoggedIn}/>
+                <Navbar {...props} onSearch={this.handleSearch} type={this.state.isEmployer} status={this.state.isLoggedIn}/>
               </div>
               <br />
               <div>
@@ -191,11 +193,13 @@ class App extends Component {
           <Route exact path="/signup" component={SignUp} />
           <Route exact path="/login" render={(props) => <Login {...props} />} />
           <Route exact path={profileurl} render={(props) => <ProfilePage {...props} onSearch={this.handleSearch} />} />
+          <Route exact path={profileurl + "/editprofile"} component={EditProfile} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/jobs" component={JobsPage} />
           {/* <Route exact path="/jobs" render={(props) => <JobsPage {...props} onSearch={this.handleSearch} />} /> */}
           {/* <Route exact path={profileurl + "/"} component={Profile} /> */}
           <Route exact path="/recruit" component={PostAJob} />
+          <Route exact path="/applyjob" component={ApplyJob} />
 
           <Route exact path='/companies' component={CompaniesList} />
 

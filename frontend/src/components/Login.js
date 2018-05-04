@@ -54,6 +54,7 @@ class Login extends Component {
         <Navbar
           onSearch={this.handleIt}
           status={this.state.isLoggedIn}
+          type={this.state.isEmployer}
           data={this.props.location.state}
           chooseTab={this.handleTabPage} />
         <div>

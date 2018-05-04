@@ -49,7 +49,11 @@ var jobSchema = new mongoose.Schema({
       trim: true
     },
     applied: [{
-      name: {
+      firstname: {
+        type: String,
+        trim: true
+      },
+      lastname: {
         type: String,
         trim: true
       },
@@ -58,6 +62,26 @@ var jobSchema = new mongoose.Schema({
         trim: true
       },
       phone: {
+        type: String,
+        trim: true
+      },
+      gender: {
+        type: String,
+        trim: true
+      },
+      university: {
+        type: String,
+        trim: true
+      },
+      dob: {
+        type: String,
+        trim: true
+      },
+      gpa: {
+        type: String,
+        trim: true
+      },
+      resume: {
         type: String,
         trim: true
       }

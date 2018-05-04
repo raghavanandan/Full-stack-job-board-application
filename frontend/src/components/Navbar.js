@@ -19,8 +19,8 @@ class Navbar extends Component {
   }
 
   componentWillMount(){
-    console.log(this.props);
-    this.setState({isLoggedIn: this.props.status});
+    // console.log('Navbar', this.props);
+    this.setState({isLoggedIn: this.props.status, isEmployer: this.props.type});
   }
 
   handleSubmit(event) {
@@ -60,7 +60,22 @@ class Navbar extends Component {
     )
   }
 
-  renderLoginMenu(){
+  renderJobSeekerLoginMenu() {
+    return (
+      <nav>
+        <div>
+          <a onClick={() => this.handleTabs('profile')}>Profile</a>&nbsp;
+          <a onClick={() => this.handleTabs('dashboard')}>Dashboard</a>&nbsp;
+          {/* <a onClick={() => this.handleTabs('recruit')}>Recruit</a>&nbsp; */}
+          <a onClick={() => this.handleTabs('jobs')}>Jobs</a>&nbsp;
+          <a onClick={() => this.handleTabs('companies')}>Companies</a>&nbsp;
+          <a onClick={() => this.handleTabs('logout')}>Logout</a>&nbsp;
+        </div>
+      </nav>
+    )
+  }
+
+  renderEmployerLoginMenu(){
     return (
       <nav>
         <div>
@@ -87,8 +102,11 @@ class Navbar extends Component {
       return <Redirect to="/signup" />
     } else if (this.state.redirect === 'login') {
       return <Redirect to="/login" />
-    } else if (this.state.isLoggedIn) {
-      return this.renderLoginMenu();
+    } else if (this.state.isLoggedIn && this.state.isEmployer) {
+      return this.renderEmployerLoginMenu();
+    } else if (this.state.isLoggedIn && !this.state.isEmployer) {
+      // return this.renderLogoutMenu();
+      return this.renderJobSeekerLoginMenu();
     } else {
       return this.renderLogoutMenu();
     }

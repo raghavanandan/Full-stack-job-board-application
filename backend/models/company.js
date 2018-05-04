@@ -12,6 +12,8 @@ var companySchema = new mongoose.Schema({
   size: String,
   founder: String,
   ceo: String,
+  location: String,
+  short_description: String,
   reviews: [{
     job: {
       type: String,

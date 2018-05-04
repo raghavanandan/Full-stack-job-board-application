@@ -69,7 +69,7 @@ class CompanyPage extends Component {
     }).catch((err) => {
       // console.log(err);
       this.setState({isValid: false});
-    })
+    });
 
     API.getCompanyJobs(company).then((data) => {
       if (data !== 400) {

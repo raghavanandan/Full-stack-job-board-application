@@ -37,6 +37,129 @@ const userSchema = new mongoose.Schema({
     trim: true,
     default: 'N/A'
   },
+  avatar: {
+    type: String,
+    default: 'https://res.cloudinary.com/jobboard/image/upload/v1525078819/user_avatars/default.png'
+  },
+  skills: {
+    type: String,
+    default: ''
+  },
+  location: {
+    type: String,
+    trim: true
+  },
+  education: [{
+    university: {
+      type: String,
+      trim: true
+    },
+    major: {
+      type: String,
+      trim: true
+    },
+    degree: {
+      type: String,
+      trim: true
+    },
+    gpa: {
+      type: String,
+      trim: true
+    },
+    achievements: {
+      type: String,
+      trim: true
+    },
+    gradDate: {
+      type: String,
+      trim: true
+    }
+  }],
+  experience: [{
+    company: {
+      type: String,
+      trim: true
+    },
+    years: {
+      type: String,
+      trim: true
+    },
+    role: {
+      type: String,
+      trim: true
+    },
+    description: {
+      type: String,
+      trim: true
+    }
+  }],
+  projects: [{
+    title: {
+      type: String,
+      trim: true
+    },
+    description: {
+      type: String,
+      trim: true
+    },
+    role: {
+      type: String,
+      trim: true
+    },
+    image: {
+      type: String
+    },
+    link: {
+      type: String
+    }
+  }],
+  about: {
+    type: String,
+    trim: true
+  },
+  fb: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  linkedin: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  twitter: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  github: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  blog: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  myjobs: [{
+    job: {
+      type: String,
+      trim: true
+    },
+    company: {
+      type: String,
+      trim: true
+    },
+    jobID: {
+      type: String,
+      trim: true
+    },
+    status: {
+      type: String,
+      trim: true
+    }
+  }],
   tokens: [{
     access: {
       type: String,
@@ -99,20 +222,6 @@ userSchema.statics.findByToken = function (token) {
 
 userSchema.statics.findByCredentials = function (email, password) {
   var User = this;
-  // console.log(email);
-  // console.log(password);
-  // var obj = {};
-  // if (type === 'email') {
-  //   obj = {
-  //     email: data
-  //   }
-  // } else if (type === 'username'){
-  //   obj = {
-  //     username: data
-  //   }
-  // }
-
-  // console.log('Final passed data is', obj);
 
 
   return User.findOne({email}).then((user) => {
@@ -136,24 +245,6 @@ userSchema.statics.findByCredentials = function (email, password) {
     });
   });
 
-
-  // return User.findOne(obj).then((user) => {
-  //   // console.log(user);
-  //   if (!user) {
-  //     return Promise.reject();
-  //   }
-  //   // console.log(password, user.password);
-  //   bcrypt.compare(password, user.password, (err, res) => {
-  //     if (res) {
-  //       // console.log('Got it');
-  //       // console.log(user);
-  //       return user;
-  //     } else {
-  //       // console.log('Did not get it');
-  //       return err;
-  //     }
-  //   });
-  // });
 }
 
 userSchema.pre('save', function (next) {
