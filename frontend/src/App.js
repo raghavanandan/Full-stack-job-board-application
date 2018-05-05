@@ -9,6 +9,7 @@ import Login from './components/Login';
 import ProfilePage from './components/ProfilePage';
 import EditProfile from './components/EditProfile';
 import Dashboard from './components/Dashboard';
+import Recruit from './components/Recruit';
 // import Profile from './components/Profile';
 import PostAJob from './components/PostAJob';
 import ApplyJob from './components/ApplyJob';
@@ -198,8 +199,9 @@ class App extends Component {
           <Route exact path="/jobs" component={JobsPage} />
           {/* <Route exact path="/jobs" render={(props) => <JobsPage {...props} onSearch={this.handleSearch} />} /> */}
           {/* <Route exact path={profileurl + "/"} component={Profile} /> */}
-          <Route exact path="/recruit" component={PostAJob} />
+          <Route exact path="/postajob" component={PostAJob} />
           <Route exact path="/applyjob" component={ApplyJob} />
+          <Route exact path="/recruit" component={Recruit} />
 
           <Route exact path='/companies' component={CompaniesList} />
 

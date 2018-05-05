@@ -37,7 +37,8 @@ class JobsPage extends Component {
     API.getAllSearchedJobs(string).then((data) => {
       if (data !== 404) {
         // console.log(data[0].postedBy[0].name);
-        this.setState({jobs: data});
+        console.log(data);
+        // this.setState({jobs: data});
       }
     }).catch((err) => {
       this.setState({error: err});
@@ -106,7 +107,7 @@ class JobsPage extends Component {
               <div className="col-xs-12">&nbsp;</div>
               <div className="col-xs-11 col-md-offset-1 col-md-3 col-xs-offset-4"><i className="fa fa-check" /> {value.status}</div>
               <div className="col-xs-11 col-md-offset-0 col-md-3 col-xs-offset-4"><i className="fa fa-paw" /> {value.applied.length} applicants</div>
-              <div className="col-xs-11 col-md-offset-0 col-md-3 col-xs-offset-4"><i className="fa fa-users" /> <i>Test</i> employees</div>
+              {/* <div className="col-xs-11 col-md-offset-0 col-md-3 col-xs-offset-4"><i className="fa fa-users" /> <i>Test</i> employees</div> */}
             </div>
           </div>
         ))}
@@ -125,6 +126,7 @@ class JobsPage extends Component {
               onSearch={this.handleIt}
               status={this.state.isLoggedIn}
               data={this.props.location.state}
+              type={this.props.location.state.isEmployer}
               chooseTab={this.handleTabPage} />
           </div>
 

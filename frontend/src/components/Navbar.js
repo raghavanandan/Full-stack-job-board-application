@@ -84,13 +84,8 @@ class Navbar extends Component {
           <a onClick={() => this.handleTabs('recruit')}>Recruit</a>&nbsp;
           <a onClick={() => this.handleTabs('jobs')}>Jobs</a>&nbsp;
           <a onClick={() => this.handleTabs('companies')}>Companies</a>&nbsp;
+          <a onClick={() => this.handleTabs('postajob')}>Post a Job</a>&nbsp;
           <a onClick={() => this.handleTabs('logout')}>Logout</a>&nbsp;
-            {/* <input type='search' onChange={(event) => this.setState({search: event.target.value})} />
-            <select value={this.state.type} onChange={(event) => this.setState({type: event.target.value})}>
-              <option value="jobs">Jobs</option>
-              <option value="companies">Companies</option>
-            </select>
-            <button onClick={this.handleSubmit}>Search</button> */}
         </div>
       </nav>
 

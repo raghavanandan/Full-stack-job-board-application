@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router';
 import Navbar from './Navbar';
 import * as API from '../api/API';
 
@@ -23,7 +24,8 @@ class ApplyJob extends Component {
       gender: 'Male',
       message: '',
       error: '',
-      isDisabled: false
+      isDisabled: false,
+      redirect: false
     }
 
     this.handleApplication = this.handleApplication.bind(this);
@@ -31,7 +33,7 @@ class ApplyJob extends Component {
   }
 
   componentWillMount() {
-    // console.log(this.props);
+    console.log(this.props);
     // let company = this.state.job.company;
     // API.getCompany(company).then((data) => {
     //   // console.log(data);
@@ -66,7 +68,7 @@ class ApplyJob extends Component {
     tab = tab.toLowerCase();
     // console.log(tab);
     if (tab === 'logout') {
-      API.logout(this.props.location.state.tokens[0]).then((response) => {
+      API.logout(this.props.location.state.data.tokens[0]).then((response) => {
         if (response === 200) {
           this.setState({redirect: true});
         }
@@ -103,6 +105,8 @@ class ApplyJob extends Component {
     }
     let id= this.state.job._id;
 
+
+
     API.postJobApplication(application, id).then((response) => {
       // console.log(response);
       if (response === 200) {
@@ -118,6 +122,8 @@ class ApplyJob extends Component {
           gender: 'Male',
           phone: ''
         });
+
+        API.updateAppliedJobs(this.state.job, 'Pending',  this.state.data._id).catch((err) => {this.setState({message: err})});
       }
     }).catch((err) => {
       // console.log(err);
@@ -258,70 +264,76 @@ class ApplyJob extends Component {
   }
 
   render(){
-    return (
-      <div className="container">
-        <div className="navbar">
-          <Navbar
-            onSearch={this.handleIt}
-            status={this.state.isLoggedIn}
-            data={this.props.location.state}
-            chooseTab={this.handleTabPage} />
-        </div>
+    if (this.state.redirect) {
+      return <Redirect to="/" />
+    } else {
+      return (
+        <div className="container">
+          <div className="navbar">
+            <Navbar
+              onSearch={this.handleIt}
+              status={this.state.isLoggedIn}
+              data={this.props.location.state}
+              type={this.props.location.state.data.isEmployer}
+              chooseTab={this.handleTabPage} />
+          </div>
 
-        {/* <div className="cover">
+          {/* <div className="cover">
 
-        </div> */}
-
-        <div className="container job">
-          {/* <div className="col-xs-12 text-center company-logo">
-            <img />
           </div> */}
 
-          <div className="col-xs-12 text-center header">
-            <h2>{this.state.job.designation} at {this.state.job.company}</h2>
-            <br />
-            <div className="col-xs-12 col-md-8 col-md-offset-2 job-tags">
-              <p className="col-md-3 job-tags">Job ID: {this.state.job.jobID}</p>
-              <p className="col-md-3 job-tags">Posted by: {this.state.job.postedBy[0].name}</p>
-              <p className="col-md-3 job-tags">Posted on: {this.state.job.postedOn}</p>
-              <p className="col-md-3 job-tags">Location: {this.state.job.location}</p>
+          <div className="container job">
+            {/* <div className="col-xs-12 text-center company-logo">
+              <img />
+            </div> */}
+
+            <div className="col-xs-12 text-center header">
+              <h2>{this.state.job.designation} at {this.state.job.company}</h2>
+              <br />
+              <div className="col-xs-12 col-md-8 col-md-offset-2 job-tags">
+                <p className="col-md-3 job-tags">Job ID: {this.state.job.jobID}</p>
+                <p className="col-md-3 job-tags">Posted by: {this.state.job.postedBy[0].name}</p>
+                <p className="col-md-3 job-tags">Posted on: {this.state.job.postedOn}</p>
+                <p className="col-md-3 job-tags">Location: {this.state.job.location}</p>
+              </div>
+
+              <br /><br />
+
+              <div className="col-xs-12 col-md-0">&nbsp;</div>
+
+              <div className="col-md-8 col-md-offset-2 about-job-header">
+                <h4>About</h4>
+                <p className="text-justify apply-job-content">{this.state.job.description}</p>
+              </div>
+
+              <br />
+
+              <div className="col-md-8 col-md-offset-2 requirements-job-header">
+                <h4>Requirements</h4>
+                <p className="text-justify apply-job-content">{this.state.job.requirements}</p>
+              </div>
+
+              <br /><br />
+              <div className="col-xs-12 col-md-0">&nbsp;</div>
+
+              <div className="col-xs-12 apply-now">
+                {this.state.isDisabled ?
+                  <div>
+                    <button className="btn btn-primary btn-lg apply-btn" disabled onClick={() => this.setState({collapse: true})}>Apply Now</button>
+                    <p><i className="fa fa-check-circle" /> &nbsp;You have already applied to this job</p>
+                  </div> :
+                  <button className="btn btn-primary btn-lg apply-btn" onClick={() => this.setState({collapse: true})}>Apply Now</button>
+                }
+              </div>
             </div>
+            <div>&nbsp;</div>
+            {this.state.collapse ? this.renderApplyForm() : null}
 
-            <br /><br />
-
-            <div className="col-xs-12 col-md-0">&nbsp;</div>
-
-            <div className="col-md-8 col-md-offset-2 about-job-header">
-              <h4>About</h4>
-              <p className="text-justify apply-job-content">{this.state.job.description}</p>
-            </div>
-
-            <br />
-
-            <div className="col-md-8 col-md-offset-2 requirements-job-header">
-              <h4>Requirements</h4>
-              <p className="text-justify apply-job-content">{this.state.job.requirements}</p>
-            </div>
-
-            <br /><br />
-            <div className="col-xs-12 col-md-0">&nbsp;</div>
-
-            <div className="col-xs-12 apply-now">
-              {this.state.isDisabled ?
-                <div>
-                  <button className="btn btn-primary btn-lg apply-btn" disabled onClick={() => this.setState({collapse: true})}>Apply Now</button>
-                  <p><i className="fa fa-check-circle" /> &nbsp;You have already applied to this job</p>
-                </div> :
-                <button className="btn btn-primary btn-lg apply-btn" onClick={() => this.setState({collapse: true})}>Apply Now</button>
-              }
-            </div>
           </div>
-          <div>&nbsp;</div>
-          {this.state.collapse ? this.renderApplyForm() : null}
-
         </div>
-      </div>
-    )
+      )
+    }
+
   }
 }
 

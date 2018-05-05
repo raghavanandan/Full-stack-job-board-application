@@ -19,7 +19,7 @@ class EditProfile extends Component {
   }
 
   componentWillMount(){
-      // console.log(this.props.match.params);
+      // console.log(this.props);
   }
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class EditProfile extends Component {
   handleTabPage(tab) {
     // console.log('In profile', tab);
     let profile = this.state.firstname.toLowerCase() + this.state.lastname.toLowerCase();
-    tab = tab.toLowerCase();
+    // tab = tab.toLowerCase();
     // console.log(tab);
     if (tab === 'logout') {
       API.logout(this.state.tokens[0]).then((response) => {
@@ -42,12 +42,12 @@ class EditProfile extends Component {
     } else if (tab === 'profile') {
       this.props.history.push({
         pathname: `/in/${profile}`,
-        state: this.state
+        state: this.props.location.state
       })
     } else {
       this.props.history.push({
         pathname: `/${tab}`,
-        state: this.state
+        state: this.props.location.state
       })
     }
   }
@@ -78,6 +78,7 @@ class EditProfile extends Component {
       lastname: this.state.lastname,
       file: this.state.file,
       skills: this.state.skills,
+      company: this.state.company,
       designation: this.state.designation,
       location: loc,
       linkedin: this.state.linkedin,
@@ -87,7 +88,7 @@ class EditProfile extends Component {
       blog: this.state.blog
     }
 
-    console.log(data);
+    // console.log(data);
     API.updateProfile(data, id).then((response) => {
       // console.log(response);
       this.setState(response);
@@ -177,7 +178,20 @@ class EditProfile extends Component {
                     <textarea
                       className="form-control" cols="50" rows="3"
                       value={this.state.skills}
+                      placeholder={this.state.skills ? null : 'Mention your skills'}
                       onChange={(event) => this.setState({skills: event.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Company: </label>
+                  <div className="col-sm-7">
+                    <input
+                      type="text"
+                      className="form-control input-sm"
+                      value={this.state.company}
+                      // placeholder={this.state.company ? null : 'Add your work place'}
+                      onChange={(event) => this.setState({company: event.target.value})}
                     />
                   </div>
                 </div>

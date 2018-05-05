@@ -113,8 +113,8 @@ export const postJob = (data) => {
   });
 }
 
-export const getPostedJobs = (emailID) => {
-  // console.log(company, emailID);
+export const getMyPostedJobs = (emailID) => {
+  // console.log(emailID);
   return fetch(`${url}/postedby/${emailID}`)
     .then((res) => res.json())
     .then((resJSON) => {
@@ -145,6 +145,43 @@ export const postJobApplication = (data, id) => {
   }).catch((err) => {
     return err
   })
+}
+
+export const updateAppliedJobs = (job, status, id) => {
+  // console.log(id);
+  const {company, designation, jobID} = job;
+  var data = {
+    job: designation,
+    company,
+    jobID,
+    status
+  }
+
+  // console.log(data);
+
+  return fetch(`${url}/addappliedjobs/${id}`, {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify(data)
+  })
+  .then((res) => {
+    // console.log(res);
+    return res.status;
+  }).catch((err) => {
+    return err;
+  });
+}
+
+export const getMyAppliedJobs = (email) => {
+  return fetch(`${url}/getappliedjobs/${email}`)
+  .then((res) => res.json())
+  .then((resJSON) => {
+    return resJSON;
+  }).catch((err) => {
+    return 404;
+  });
 }
 
 export const uploadResume = (file) => {
@@ -246,6 +283,24 @@ export const updateSkills = (skills, id) => {
   }).then((res) => {
     // console.log(res);
     res.json()
+  }).then((resJSON) => {
+    return resJSON;
+  }).catch((err) => {
+    console.log(err);
+  })
+}
+
+export const updateEducation = (education, id) => {
+  console.log(education);
+
+  return fetch(`${url}/users/updateeducation/${id}`, {
+    method: 'PATCH',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify(education)
+  }).then((res) => {
+    return res.json();
   }).then((resJSON) => {
     return resJSON;
   }).catch((err) => {

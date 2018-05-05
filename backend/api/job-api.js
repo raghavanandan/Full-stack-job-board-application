@@ -71,7 +71,7 @@ module.exports = (app, upload) => {
     var job = new Job({
       jobID: req.body.jobID,
       designation: req.body.designation,
-      company: req.body.name,
+      company: req.params.name,
       postedBy: [{
         name: req.body.postedBy,
         emailID: req.body.emailID

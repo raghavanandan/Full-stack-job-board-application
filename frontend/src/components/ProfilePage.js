@@ -23,8 +23,8 @@ class ProfilePage extends Component {
     this.state.addDegree = '';
     this.state.addGPA = '';
     this.state.addAchievements = '';
-    this.state.gradMonth = '';
-    this.state.gradYear = '';
+    this.state.gradMonth = 'January';
+    this.state.gradYear = '2019';
     this.state.addTitle = '';
     this.state.addDescription = '';
     this.state.addRole = '';
@@ -42,6 +42,7 @@ class ProfilePage extends Component {
     this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleUpdateSkills = this.handleUpdateSkills.bind(this);
+    this.handleAddEducation = this.handleAddEducation.bind(this);
     this.handleAddProject = this.handleAddProject.bind(this);
     this.handleAddWork = this.handleAddWork.bind(this);
     this.handleEditProfile = this.handleEditProfile.bind(this);
@@ -51,7 +52,7 @@ class ProfilePage extends Component {
   componentDidMount() {
     // console.log('Profilepage Component Mounted');
     // console.log(this.props.location.state);
-    console.log(this.state);
+    // console.log(this.state);
     // console.log(this.props);
   }
 
@@ -107,9 +108,7 @@ class ProfilePage extends Component {
     event.preventDefault();
     // console.log(this.state.skillset);
     let skills = this.state.skillset;
-    // let skills = this.state.skillset.split(",");
-    // skills = skills.map(Function.prototype.call, String.prototype.trim);
-    //
+
     API.updateSkills(skills, this.state._id).then((response) => {
       this.setState({skills: response.skills, addSkill: false})
     }).catch((err) => {
@@ -163,6 +162,28 @@ class ProfilePage extends Component {
         console.log(err);
       });
     });
+  }
+
+  handleAddEducation(event) {
+    event.preventDefault();
+
+    let education = {
+      university: this.state.addUniversity,
+      major: this.state.addMajor,
+      degree: this.state.addDegree,
+      gpa: this.state.addGPA,
+      gradDate: this.state.gradMonth + ' ' + this.state.gradYear
+    }
+
+    // console.log(education);
+    API.updateEducation(education, this.state._id).then((response) => {
+      this.setState({
+        education: response.education,
+        addEducation: false
+      });
+    }).catch((err) => {
+      console.log(err);
+    })
   }
 
   handleAddProject(event){
@@ -476,6 +497,7 @@ class ProfilePage extends Component {
             onSearch={this.handleIt}
             status={this.state.isLoggedIn}
             data={this.props.location.state}
+            type={this.props.location.state.isEmployer}
             chooseTab={this.handleTabPage} />
         </div>
 
@@ -513,14 +535,14 @@ class ProfilePage extends Component {
                 {this.state.skills ?
                   <p>Experience with {this.state.skills}</p> :
                   <a onClick={(event) => this.setState({addSkill: true})}>+ Add a skill</a>}<br />
-                {this.state.addSkill ? <textarea cols="50" rows="3" placeholder="Enter skills separated by comma" onChange={(event) => this.setState({skillset: event.target.value})}/> : null}
+                {this.state.addSkill ? <textarea className="col-xs-6 form-control" cols="50" rows="3" placeholder="Enter skills separated by comma" onChange={(event) => this.setState({skillset: event.target.value})}/> : null}
                 {this.state.addSkill ? <div><a onClick={(event) => this.setState({addSkill: false})}>Cancel</a>&nbsp;&nbsp;&nbsp;&nbsp;<Button className="btn btn-xs btn-primary" onClick={this.handleUpdateSkills}>Save</Button></div> : null}<br />
               </div>
 
               <div className="col-md-12 col-xs-12 make-center tags">
-                {this.state.designation !== 'N/A' ? <i className="fa fa-hashtag col-xs-4 col-md-2" >&nbsp;{this.state.designation}</i> : null}
-                {this.state.location ? <i className="fa fa-map-marker col-xs-4 col-md-2" >&nbsp;{this.state.location}</i> : null}
-                {this.state.education.length ? <i className="fa fa-graduation-cap col-xs-4 col-md-2" >{this.state.education[0].university}</i> : null}
+                {this.state.designation !== 'N/A' ? <p className="tags col-xs-4"><i className="fa fa-suitcase" /> {this.state.designation}</p> : null}
+                {this.state.location ? <p className="tags col-xs-4"><i className="fa fa-map-marker" /> {this.state.location}</p> : null}
+                {this.state.education.length ? <p className="tags col-xs-4"><i className="fa fa-graduation-cap" /> {this.state.education[0].university}</p> : null}
               </div>
 
             </div>
@@ -599,52 +621,147 @@ class ProfilePage extends Component {
     )
   }
 
-  /*renderEmployerProfile() {
+  renderEmployerProfile() {
     return (
-      <div>
-        <Navbar
-          onSearch={this.handleIt}
-          status={this.state.isLoggedIn}
-          type={this.state.isEmployer}
-          data={this.props.location.state}
-          chooseTab={this.handleTabPage} />
-        <h1>Welcome {this.state.firstname}</h1>
-        <p>{this.state.joined}</p>
-        <hr /><br />
-        <img
-          src={this.state.avatar}
-          alt="avatar"
-          style={{width: 50}}
-        /><br />
-        <label>Firstname: </label><input
-          type='text'
-          value={this.state.firstname}
-          onChange={(event) => this.setState({firstname: event.target.value})}
-          contentEditable /><br />
-        <label>Lastname: </label><input
-          type='text'
-          value={this.state.lastname}
-          onChange={(event) => this.setState({lastname: event.target.value})}
-          contentEditable /><br />
-        <label>Email ID: </label><input
-          type='email'
-          value={this.state.email}
-          onChange={(event) => this.setState({email: event.target.value})}
-          contentEditable /><br />
-        <label>Company: </label><input
-          type='text'
-          value={this.state.company}
-          onChange={(event) => this.setState({company: event.target.value})}
-          contentEditable /><br />
-        <label>Designation: </label><input
-          type='text'
-          value={this.state.designation}
-          onChange={(event) => this.setState({designation: event.target.value})}
-          contentEditable /><br /><br />
-        <button type='submit' onClick={this.handleUpdateProfile}>Save</button>
+      <div className="container">
+        <div className="navbar">
+          <Navbar
+            onSearch={this.handleIt}
+            status={this.state.isLoggedIn}
+            data={this.state}
+            type={this.props.location.state.isEmployer}
+            chooseTab={this.handleTabPage} />
+        </div>
+
+        {/* <div className="cover">
+
+        </div> */}
+        {/* <br /> */}
+
+        <div className="container profile-content">
+
+          <div className="row header">
+            <div className="col-md-4 make-center text-right image">
+              <img
+                className="avatar"
+                src={this.state.avatar}
+                alt={this.state.firstname}
+                style={{width: 200}}
+              />
+            </div>
+            <div className="col-md-8 others">
+              <div className="col-md-12 make-center name-lfg-edit">
+                <div className="col-md-10 name-lfg"><h2 className="name">{this.state.firstname} {this.state.lastname} &nbsp; <span className="lfg">{this.state.linkedin ? <a href={this.state.linkedin} target='_blank'><i className="fa fa-linkedin" /></a> : null} &nbsp; {this.state.linkedin ? <i className="fa fa-facebook-f" /> : null} &nbsp; {this.state.linkedin ? <i className="fa fa-github" /> : null}</span></h2></div>
+                {/* <div className="col-md-2 col-xs-12 lfg">{this.state.linkedin ? <i className="fa fa-linkedin" /> : null} &nbsp; {this.state.linkedin ? <i className="fa fa-facebook-f" /> : null} &nbsp; {this.state.linkedin ? <i className="fa fa-github" /> : null}</div> */}
+                {/* <div className="col-md-1 col-xs-12 lfg">{this.state.linkedin ? <i className="fa fa-facebook-f" /> : null}</div> */}
+                <div className="col-md-2 hidden-xs pull-right edit"><a onClick={this.handleEditProfile}>Edit <i className="fa fa-pencil-square-o"/></a></div>
+                 {/* {this.state.linkedin ? <i className="fa fa-linkedin col-xs-12 col-md-2" /> : null} */}
+                  {/* <a className="col-md-2 col-md-offset-3 hidden-xs pull-right edit" onClick={this.handleEditProfile}>Edit <i className="fa fa-pencil-square-o"/></a> */}
+                {/* </h2> */}
+              </div>
+
+
+              <div className="col-md-12 col-xs-12 make-center skills">
+                <br />
+                {this.state.aboutme ? <p>{this.state.aboutme}</p> : null}
+                {this.state.skills ?
+                  <p>Experience with {this.state.skills}</p> :
+                  <a onClick={(event) => this.setState({addSkill: true})}>+ Add a skill</a>}<br />
+                {this.state.addSkill ? <textarea className="col-xs-6 form-control" cols="50" rows="3" placeholder="Enter skills separated by comma" onChange={(event) => this.setState({skillset: event.target.value})}/> : null}
+                <div>&nbsp;</div>
+                {this.state.addSkill ? <div className="text-justify"><a onClick={(event) => this.setState({addSkill: false})}>Cancel</a>&nbsp;&nbsp;&nbsp;&nbsp;<Button className="btn btn-xs btn-primary" onClick={this.handleUpdateSkills}>Save</Button></div> : null}<br />
+              </div>
+
+              <div className="col-xs-12 tags">
+                {this.state.designation !== 'N/A' ? <p className="tags col-xs-4"><i className="fa fa-suitcase" /> {this.state.designation}</p> : null}
+                {this.state.location ? <p className="tags col-xs-4"><i className="fa fa-map-marker" /> {this.state.location}</p> : null}
+                {this.state.education.length ? <p className="tags col-xs-4"><i className="fa fa-graduation-cap" /> {this.state.education[0].university}</p> : null}
+              </div>
+
+            </div>
+          </div>
+
+          <br /><br /><br /><br />
+
+          <div className="body">
+            <div id="education">
+              <h4>EDUCATION</h4><br />
+              <a onClick={(event) => this.setState({addEducation: true})}><i className="fa fa-plus-square-o"/> Add an education</a>
+              {this.state.addEducation ? <div>{this.renderAddEducation()}</div> : null}
+              <div>&nbsp;</div>
+              {/* <div className="list"> */}
+                {this.state.education.length ?
+                  <span>{this.state.education.map((value, index) => (
+                    <div key={index} className="row profile-section">
+                      <div className="col-md-2 text-center hidden-xs grad-cap">
+                        <i className="fa fa-graduation-cap fa-4x" />
+                      </div>
+                      <div className="col-md-10 col-xs-12 grad-univ">
+                        <p>{value.university.toUpperCase()} . {value.gradDate.toUpperCase()}</p>
+                        <p>{value.degree}, {value.major}</p>
+                        <p>GPA: {value.gpa}</p>
+                        <p>{value.achievements}</p>
+                      </div>
+                      {this.state.education.length === 1 ? null : <hr />}
+                    </div>
+                  ))}</span> : null}<br />
+                  {/* {this.state.addEducation ? <div>{this.renderAddEducation()}</div> : null} */}
+              {/* </div> */}
+            </div><br />
+            <hr />
+            <div id="projects">
+              <h4>PROJECTS</h4><br />
+              <a onClick={(event) => this.setState({addProject: true})}><i className="fa fa-plus-square-o"/> Add a project</a>
+              {this.state.addProject ? <div>{this.renderAddProject()}</div> : null}
+              <div>&nbsp;</div>
+              {/* <div className="list"> */}
+                {this.state.projects.length ?
+                <span>{this.state.projects.map((value, index) => (
+                  <div key={index} className="row profile-section">
+                    <div className="col-md-2 text-center hidden-xs proj-img">
+                      <i className="fa fa-graduation-cap fa-4x" />
+                    </div>
+                    <div className="col-md-10 col-xs-12 proj-desc">
+                      <p>{value.title} &nbsp; <a href={value.link} target="_blank"><i className="fa fa fa-share-square-o"/></a></p>
+                      <p>{value.description}</p>
+                      <p>{value.role}</p>
+                    </div>
+                    {this.state.projects.length === 1 ? null : <hr />}
+                  </div>
+                ))}</span> : null}<br />
+                {/* {this.state.addProject ? <div>{this.renderAddProject()}</div> : null} */}
+              {/* </div> */}
+            </div><br />
+            <hr />
+            <div id="experience">
+              <h4>EXPERIENCE</h4><br />
+              <a onClick={(event) => this.setState({addWork: true})}><i className="fa fa-plus-square-o" /> Add work experience</a>
+              {this.state.addWork ? <div>{this.renderAddWork()}</div> : null}
+              <div>&nbsp;</div>
+              {/* <div className="list"> */}
+                {this.state.experience.length ?
+                <span>{this.state.experience.map((value, index) => (
+                  <div key={index} className="row profile-section">
+                    <div className="col-md-2 text-center hidden-xs proj-img">
+                      <i className="fa fa-graduation-cap fa-4x" />
+                    </div>
+                    <div className="col-md-6 col-xs-12 proj-desc">
+                      <p>{value.company}</p>
+                      <h4>{value.role} <span id="year">({value.years})</span></h4>
+                      <p>{value.description}</p>
+                    </div>
+                    {this.state.experience.length === 1 ? null : <hr />}
+                  </div>
+                ))}</span> : null}<br />
+                {/* {this.state.addWork ? <div>{this.renderAddWork()}</div> : null} */}
+              {/* </div> */}
+            </div>
+          </div>
+
+        </div>
       </div>
     )
-  }*/
+  }
 
 
   render() {

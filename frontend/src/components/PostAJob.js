@@ -10,7 +10,6 @@ class PostAJob extends Component {
       jobID: '',
       designation: '',
       description: '',
-      responsibilities: '',
       postedBy: this.props.location.state.firstname + ' ' + this.props.location.state.lastname,
       location: '',
       requirements: '',
@@ -18,16 +17,23 @@ class PostAJob extends Component {
       status: '',
       emailID: this.props.location.state.email,
       isLoggedIn: this.props.location.state.isLoggedIn,
-      error: ''
+      isEmployer: false,
+      error: '',
+      headsUp: false
     }
 
     this.handlePost = this.handlePost.bind(this);
     this.handleTabPage = this.handleTabPage.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // console.log(this.state);
     // console.log('PostAJob state', this.props.location.state);
+    if (this.props.location.state) {
+      this.setState({isEmployer: this.props.location.state.isEmployer})
+    } else {
+      this.setState({isEmployer: false})
+    }
   }
 
   handleTabPage(tab) {
@@ -60,12 +66,13 @@ class PostAJob extends Component {
   handlePost(event) {
     event.preventDefault();
     // console.log(this.state);
-    let {jobID, company, description, designation, emailID, location, postedBy, requirements, responsibilities, type} = this.state;
-    if (jobID && company && description && designation && emailID && location && postedBy && requirements && responsibilities && type) {
+    let {jobID, company, description, designation, emailID, location, postedBy, requirements, type} = this.state;
+    if (jobID && company && description && designation && emailID && location && postedBy && requirements && type) {
       // console.log(this.state);
       this.setState({status: 'Open'}, () => {
         let {status} = this.state;
-        var job = {jobID, company, description, designation, emailID, location, postedBy, requirements, responsibilities, status, type}
+        var job = {jobID, company, description, designation, emailID, location, postedBy, requirements, status, type}
+        // API.postJob(job);
         API.postJob(job).then((response) => {
           if (response === 200) {
             this.props.history.push({
@@ -85,81 +92,147 @@ class PostAJob extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <Navbar
-          onSearch={this.handleIt}
-          status={this.state.isLoggedIn}
-          data={this.props.location.state}
-          chooseTab={this.handleTabPage} />
-          <div>
-            <h2>Post a Job</h2>
-            <form onSubmit={this.handlePost}>
-              <label>
-                Company: <input
-                  type="text"
-                  value={this.state.company}
-                  disabled
-                />
-              </label><br />
-              <label>
-                Job ID: <input
-                  type="text"
-                  value={this.state.jobID}
-                  onChange={(event) => this.setState({jobID: event.target.value})}
-                />
-              </label><br />
-              <label>
-                Job Position: <input
-                  type="text"
-                  value={this.state.designation}
-                  onChange={(event) => this.setState({designation: event.target.value})}
-                />
-              </label><br />
-              <label>
-                Description: <textarea
-                  rows="5"
-                  columns="10"
-                  value={this.state.description}
-                  onChange={(event) => this.setState({description: event.target.value})}
-                />
-              </label><br />
-              <label>
-                Responsibilities: <textarea
-                  rows="5"
-                  columns="10"
-                  value={this.state.responsibilites}
-                  onChange={(event) => this.setState({responsibilities: event.target.value})}
-                />
-              </label><br />
-              <label>
-                Location: <input
-                  type="text"
-                  value={this.state.location}
-                  onChange={(event) => this.setState({location: event.target.value})}
-                />
-              </label><br />
-              <label>
-                Requirements: <textarea
-                  rows="5"
-                  columns="10"
-                  value={this.state.requirements}
-                  onChange={(event) => this.setState({requirements: event.target.value})}
-                />
-              </label><br />
-              <label>
-                Type: <select value={this.state.type} onChange={(event) => this.setState({type: event.target.value})}>
-                  <option value="Technology">Technology</option>
-                  <option value="Customer Service">Customer Service</option>
-                  <option value="Funding">Funding</option>
-                </select>
-              </label><br />
-              <button type="submit">Post</button>
-            </form>
-            {this.state.error}
+    if (!this.state.isEmployer) {
+      return (
+        <p>Not aiuthorized</p>
+      )
+    } else {
+      return (
+        <div className="container">
+          <div className="navbar">
+            <Navbar
+              onSearch={this.handleIt}
+              status={this.state.isLoggedIn}
+              data={this.props.location.state}
+              type={this.props.location.state.isEmployer}
+              chooseTab={this.handleTabPage} />
           </div>
-      </div>
-    )
+
+          <div className="container postajob-content">
+            <div className="row text-center">
+              <h3>Over 100+ employers use JobSeek to recruit talents.</h3>
+            </div>
+            <br />
+            <div className="col-xs-12 text-center">
+              <p className="alert alert-info"><i className="fa fa-info-circle fa-lg" /> To ensure more views and responses, please fill in all the details of the job</p>
+            </div>
+
+            <div className="col-xs-12">
+
+              <form className="form-horizontal" id="application-form" onSubmit={this.handlePost}>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Company: </label>
+                  <div className="col-sm-3">
+                    <input
+                      type="text"
+                      className="form-control input-sm"
+                      value={this.state.company}
+                      disabled
+                    />
+                  </div>
+                  <p className="col-sm-4"><i className="fa fa-info-circle" /> You can recruit only for your company.</p>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Job ID: </label>
+                  <div className="col-sm-3">
+                    <input
+                      type="text"
+                      className="form-control input-sm"
+                      value={this.state.jobID}
+                      maxLength="6"
+                      required
+                      onChange={(event) => this.setState({jobID: event.target.value})}
+                     />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Job position: </label>
+                  <div className="col-sm-3">
+                    <input
+                      type="text"
+                      className="form-control input-sm"
+                      value={this.state.designation}
+                      required
+                      onChange={(event) => this.setState({designation: event.target.value})}
+                     />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Category: </label>
+                  <div className="col-sm-3">
+                     <select value={this.state.type} className="form-control" onChange={(event) => this.setState({type: event.target.value})}>
+                       <option value="Technology">Technology</option>
+                       <option value="Finance">Finance</option>
+                       <option value="Service">Service</option>
+                       <option value="Heatlh Sciences">Health Sciences</option>
+                       <option value="Management">Management</option>
+                       <option value="Construction">Construction</option>
+                       <option value="Aviation">Aviation</option>
+                       <option value="Water Treatment">Water Treatment</option>
+                       <option value="Retail">Retail</option>
+                     </select>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Job location: </label>
+                  <div className="col-sm-3">
+                    <input
+                      id="job-location"
+                      type="text"
+                      className="form-control input-sm"
+                      value={this.state.location}
+                      required
+                      onChange={(event) => {
+                        this.setState({location: event.target.value})
+                        // window.initMap()
+                      }}
+                     />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Description: </label>
+                  <div className="col-sm-5">
+                    <textarea
+                      className="form-control" cols="50" rows="5"
+                      value={this.state.description}
+                      onChange={(event) => this.setState({description: event.target.value})}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="col-sm-4 control-label">Candidate requirements: </label>
+                  <div className="col-sm-5">
+                    <textarea
+                      className="form-control" cols="50" rows="5"
+                      value={this.state.requirements}
+                      onChange={(event) => this.setState({requirements: event.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <div className="col-sm-offset-4 col-sm-5">
+                    <a onClick={(event) => this.setState(
+                      {
+                        designation: '',
+                        jobID: '',
+                        location: '',
+                        category: 'Technology',
+                        description: '',
+                        responsibilities: '',
+                        requirements: ''
+                      })}>Cancel</a>&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" className="btn btn-md btn-primary">Post</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      )
+    }
+
   }
 }
 

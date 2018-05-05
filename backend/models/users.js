@@ -66,10 +66,6 @@ const userSchema = new mongoose.Schema({
       type: String,
       trim: true
     },
-    achievements: {
-      type: String,
-      trim: true
-    },
     gradDate: {
       type: String,
       trim: true

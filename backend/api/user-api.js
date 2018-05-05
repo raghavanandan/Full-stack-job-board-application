@@ -18,6 +18,16 @@ module.exports = (app, upload) => {
     })
   });
 
+  /********Get user_appliedjobs**********/
+  app.get('/getappliedjobs/:email', (req, res) => {
+    User.findOne({email: req.params.email}).then((doc) => {
+      // console.log(doc.myjobs);
+      res.send(doc.myjobs);
+    }).catch((err) => {
+      res.status(400).send(err);
+    })
+  });
+
   /********Get one_user**********/
   // app.get('/users/:username', (req, res) => {
   //   const {username} = req.params;
@@ -97,6 +107,27 @@ module.exports = (app, upload) => {
     })
   });
 
+  /********Post user_appliedjobs**********/
+  app.post('/addappliedjobs/:id', (req, res) => {
+    // console.log(req.body);
+    User.findOneAndUpdate(
+      {_id: req.params.id},
+      {$push: {
+        myjobs: {
+          $each: [req.body]
+        }
+      }},
+      {returnOriginal: false}
+    ).then((doc) => {
+      if (doc === null) {
+        return res.status(400).send('No such company to update');
+      }
+      return res.send(doc.status);
+    }).catch((err) => {
+      res.status(400).send(err);
+    })
+  });
+
   /********Update user_profile**********/
   app.patch('/users/updateprofile/:id', (req, res) => {
     // console.log(req.body);
@@ -140,6 +171,25 @@ module.exports = (app, upload) => {
     })
   })
 
+  /********Update user_education**********/
+  app.patch('/users/updateeducation/:id', (req, res) => {
+    const {id} = req.params;
+
+    User.findByIdAndUpdate(id, {$push: {
+      education: {
+        $each: [req.body],
+        $position: 0
+      }
+    }}, {new: true}).then((user) => {
+      if (!user) {
+        return res.status(404).send('No matching records')
+      }
+      return res.send(user);
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
+  })
+
   /********Update user_projects**********/
   app.patch('/users/updateproject/:id', (req, res) => {
     // console.log(req.body);
@@ -180,7 +230,8 @@ module.exports = (app, upload) => {
     }).catch((err) => {
       res.status(400).send(err);
     })
-  })
+  });
+
 
   /********Update user_avatar**********/
   app.post('/users/avatar/:id', upload.single('file'), (req, res) => {

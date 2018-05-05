@@ -2,8 +2,9 @@
   border: 1px solid black;
 } */
 
-.tags,{
+.tags{
   padding: 0;
+  /* border: 1px solid black; */
 }
 
 .lfg {
@@ -17,6 +18,7 @@
 .profile-content{
   border: 1px solid blue;
 }
+
 
 .header {
   /* border: 1px solid red; */
@@ -46,13 +48,9 @@
   padding: 0;
 }
 
-.skills, .tags {
+.skills{
   /* border: 1px solid black; */
   padding: 0
-}
-
-.tags {
-  /* border: 1px solid black; */
 }
 
 .bread, .cancel {
@@ -136,13 +134,40 @@ hr {
   padding: 0;
 }
 
+.review-status {
+  font-size: 0.8em;
+}
+
 /* .each-company {
   border: 1px solid black;
 } */
 
+.company {
+  border: 1px solid black;
+}
+
+.company-tags, .header, .tabs {
+  border: 1px solid black;
+}
+
+.tabs {
+  padding: 0;
+}
+
+.tab {
+  border: 1px solid black;
+  padding: 10px;
+}
+
 .each-job, .each-company{
-  /* border: 1px solid black; */
+  border: 1px solid black;
   /* padding: 15px; */
+  /* padding: 0; */
+  padding-bottom: 15px;
+}
+
+.each-review {
+  padding: 20px;
 }
 
 .each-job:hover {
@@ -150,9 +175,27 @@ hr {
   cursor: pointer;
 }
 
+.company {
+  padding-bottom: 20px;
+}
+
 .header{
   padding: 15px;
   /* border: 1px solid black; */
+}
+
+.dashboard-content {
+  /* border: 1px solid black; */
+  padding: 0;
+}
+
+.success-rate, .profile-views {
+  padding: 0;
+}
+
+.applied-jobs {
+  /* border: 1px solid blue; */
+  padding: 0;
 }
 
 .description {
@@ -170,8 +213,8 @@ hr {
   padding: 15px;
 }
 
-.joblist-content {
-  border: 1px solid black;
+.joblist-content, .companylist-content {
+  border: 1px solid red;
   padding: 0;
 }
 
@@ -189,8 +232,101 @@ hr {
   border: 1px solid black;
 }
 
+.tab-name, .icon {
+  /* font-size: 0.8em; */
+  /* border: 1px solid blue; */
+}
+
+.tab-name {
+  padding: 0;
+}
+
+.icon {
+  /* border: 1px solid blue; */
+  padding: 0;
+}
+
+.about-company-content {
+  padding: 20px;
+}
+
+.postajob-content {
+  border: 1px solid black;
+}
+
+/* h4 {
+  border: 1px solid blue;
+} */
+
+.tab {
+  /* border: 1px solid red; */
+  padding: 0;
+  padding: 10px 0 7px 0;
+}
+
+.tabs{
+  padding: 8px 0;
+}
+
+th {
+  /* border: 1px solid black; */
+  text-align: center;
+}
+
+.applied-job {
+  border: 1px solid black;
+  /* padding-left: 15px; */
+}
+
+.tab:hover {
+  background-color: #ccc;
+  transition: 0.7s all;
+  border-bottom: 2px solid black;
+  cursor: pointer;
+}
+
+.reviews {
+  border: 1px solid black;
+}
+
+.review-description {
+  padding: 0;
+  /* border: 1px solid black; */
+}
+
+.app-job {
+  /* border: 1px solid black; */
+}
+
+.badge-info {
+  background-color: #3a87ad;
+}
+
+.badge-success {
+  background-color: #468847;
+}
+
+.badge-danger {
+  background-color: #b94a48;
+}
+
+
+
 #searchbar {
   width: 100%;
+}
+
+#success-rate-header {
+  font-size: 2em;
+}
+
+#show-success-rate {
+  font-size: 5em;
+  font-weight: lighter;
+}
+
+#jobs-list {
+  /* border: 1px solid black; */
 }
 
 textarea {
@@ -223,6 +359,21 @@ a {
   .post {
     font-size: 0.7em;
   }
+  .about-company {
+    line-height: 1.8em;
+  }
+  .pros {
+    padding: 3px;
+  }
+  th {
+    font-size: 0.8em;
+  }
+  td {
+    font-size: 0.8em;
+  }
+  td.badge {
+    font-size: 0.7em;
+  }
 
 }
 
@@ -251,5 +402,19 @@ a {
   }
   .each-job, .each-company {
     padding: 15px;
+  }
+  .about-company {
+    line-height: 2.5em;
+    font-size: 1.1em;
+  }
+  .gap {
+    width: 48%;
+    height: 250px;
+  }
+  .profile-section {
+    padding: 15px;
+  }
+  .profile-views {
+    margin-left: 4%;
   }
 }
