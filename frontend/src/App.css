@@ -2,9 +2,8 @@
   border: 1px solid black;
 } */
 
-.tags{
+.tags {
   padding: 0;
-  /* border: 1px solid black; */
 }
 
 .lfg {
@@ -15,10 +14,9 @@
   font-size: 0.5em;
 }
 
-.profile-content{
+.profile-content {
   border: 1px solid blue;
 }
-
 
 .header {
   /* border: 1px solid red; */
@@ -28,7 +26,7 @@
   margin: auto; */
 }
 
-.others{
+.others {
   /* border: 1px solid black; */
   padding: 0;
 }
@@ -37,20 +35,24 @@
   /* border: 1px solid black; */
 }
 
-.name-lfg{
+.name-lfg {
   /* border: 1px solid black; */
   /* padding-left: 1.5px; */
   padding: 0;
 }
 
-.name-lfg-edit{
+.name-lfg-edit {
   /* border: 1px solid red; */
   padding: 0;
 }
 
-.skills{
+.skills, .tags {
   /* border: 1px solid black; */
   padding: 0
+}
+
+.tags {
+  /* border: 1px solid black; */
 }
 
 .bread, .cancel {
@@ -85,9 +87,10 @@
   padding: 22px 0 22px 45px;
 }
 
-.grad-cap, .grad-univ{
+.grad-cap, .grad-univ {
   /* border: 1px solid black; */
 }
+
 .list {
   border: 1px solid black;
   padding: 20px;
@@ -134,40 +137,13 @@ hr {
   padding: 0;
 }
 
-.review-status {
-  font-size: 0.8em;
-}
-
 /* .each-company {
   border: 1px solid black;
 } */
 
-.company {
-  border: 1px solid black;
-}
-
-.company-tags, .header, .tabs {
-  border: 1px solid black;
-}
-
-.tabs {
-  padding: 0;
-}
-
-.tab {
-  border: 1px solid black;
-  padding: 10px;
-}
-
-.each-job, .each-company{
-  border: 1px solid black;
+.each-job, .each-company {
+  /* border: 1px solid black; */
   /* padding: 15px; */
-  /* padding: 0; */
-  padding-bottom: 15px;
-}
-
-.each-review {
-  padding: 20px;
 }
 
 .each-job:hover {
@@ -175,27 +151,9 @@ hr {
   cursor: pointer;
 }
 
-.company {
-  padding-bottom: 20px;
-}
-
-.header{
+.header {
   padding: 15px;
   /* border: 1px solid black; */
-}
-
-.dashboard-content {
-  /* border: 1px solid black; */
-  padding: 0;
-}
-
-.success-rate, .profile-views {
-  padding: 0;
-}
-
-.applied-jobs {
-  /* border: 1px solid blue; */
-  padding: 0;
 }
 
 .description {
@@ -213,8 +171,8 @@ hr {
   padding: 15px;
 }
 
-.joblist-content, .companylist-content {
-  border: 1px solid red;
+.joblist-content {
+  border: 1px solid black;
   padding: 0;
 }
 
@@ -232,101 +190,8 @@ hr {
   border: 1px solid black;
 }
 
-.tab-name, .icon {
-  /* font-size: 0.8em; */
-  /* border: 1px solid blue; */
-}
-
-.tab-name {
-  padding: 0;
-}
-
-.icon {
-  /* border: 1px solid blue; */
-  padding: 0;
-}
-
-.about-company-content {
-  padding: 20px;
-}
-
-.postajob-content {
-  border: 1px solid black;
-}
-
-/* h4 {
-  border: 1px solid blue;
-} */
-
-.tab {
-  /* border: 1px solid red; */
-  padding: 0;
-  padding: 10px 0 7px 0;
-}
-
-.tabs{
-  padding: 8px 0;
-}
-
-th {
-  /* border: 1px solid black; */
-  text-align: center;
-}
-
-.applied-job {
-  border: 1px solid black;
-  /* padding-left: 15px; */
-}
-
-.tab:hover {
-  background-color: #ccc;
-  transition: 0.7s all;
-  border-bottom: 2px solid black;
-  cursor: pointer;
-}
-
-.reviews {
-  border: 1px solid black;
-}
-
-.review-description {
-  padding: 0;
-  /* border: 1px solid black; */
-}
-
-.app-job {
-  /* border: 1px solid black; */
-}
-
-.badge-info {
-  background-color: #3a87ad;
-}
-
-.badge-success {
-  background-color: #468847;
-}
-
-.badge-danger {
-  background-color: #b94a48;
-}
-
-
-
 #searchbar {
   width: 100%;
-}
-
-#success-rate-header {
-  font-size: 2em;
-}
-
-#show-success-rate {
-  font-size: 5em;
-  font-weight: lighter;
-}
-
-#jobs-list {
-  /* border: 1px solid black; */
 }
 
 textarea {
@@ -341,80 +206,187 @@ a {
   cursor: pointer;
 }
 
-
-@media only screen and (max-width: 641px)
-{
+@media only screen and (max-width: 641px) {
   .make-center {
     text-align: center;
   }
+
   .cancel {
     padding-left: 15px;
   }
+
   .body {
     padding-bottom: 20px;
   }
+
   .apply-job-content {
     line-height: 1.8em;
   }
+
   .post {
-    font-size: 0.7em;
-  }
-  .about-company {
-    line-height: 1.8em;
-  }
-  .pros {
-    padding: 3px;
-  }
-  th {
-    font-size: 0.8em;
-  }
-  td {
-    font-size: 0.8em;
-  }
-  td.badge {
     font-size: 0.7em;
   }
 
 }
 
-@media only screen and (min-width: 641px)
-{
-  .name{
+@media only screen and (min-width: 641px) {
+  .name {
     padding: 0px;
   }
+
   .container {
     width: 85%;
   }
+
   .cancel {
     padding-left: 120px;
   }
+
   .personal {
     border-right: 0.5px solid #ddd;
   }
+
   .body {
     padding: 20px;
   }
+
   .apply-job-content {
     line-height: 2.5em;
   }
+
   .job-tags {
     /* padding: 0 0 0 20px; */
   }
+
   .each-job, .each-company {
     padding: 15px;
   }
-  .about-company {
-    line-height: 2.5em;
-    font-size: 1.1em;
+
+  .container1 {
+    text-align: center;
+    padding: 10px;
   }
-  .gap {
-    width: 48%;
+
+  .signup1 {
+    height: 50%;
+    width: 50%;
+    /*margin-left: 25%;*/
+    /*margin-top: 2%;*/
+    margin: auto;
+    padding: 50px 0;
+    border: 2px solid black;
+    align-self: center;
+  }
+
+  .heading {
+    color: #7f0fff;
+  }
+
+  .bg {
+    background-color: #eeeeee;
+    margin-top: 5%;
+    opacity: 0.8;
+  }
+
+  .company {
+    font-family: "Arial Hebrew";
+    color: black;
+  }
+
+  .center1s {
+    align-self: center;
+  }
+
+  .vl {
+    border-left: 6px solid green;
+    height: 500px;
+    margin-left: 50%;
+  }
+
+  .one {
+    width: 50%;
+    height: 100%;
+    margin-top: 3%;
+    background: #eeeeee;
+    float: left;
+    opacity: 0.8;
+  }
+
+  .two {
+    margin-left: 50%;
+    height: 100%;
+    background: #eeeeee;
+    margin-top: 5%;
+    opacity: 0.8;
+  }
+
+  .contain2 {
+    width: 80%;
+    height: 200px;
+    background: aqua;
+    margin: auto;
+    padding: 10px;
+  }
+
+  .image {
+    background-image: url("Images/road-sun-rays-path.jpg");
+    background-size: contain;
+
+  }
+
+  .seeker_image {
+    background-image: url("Images/job_seeker.jpg");
+    background-size: cover;
+    border-image-outset: 20px;
+  }
+
+  .recruiter_image {
+    background-image: url("Images/recruiter.jpg");
+    background-size: cover;
+    border-image-outset: 20px;
+  }
+
+  .top {
+    margin-top: 100px;
+
+  }
+
+  .ib {
+    display: inline-block;
+    height: 350px;
+    padding-right: 500px;
+    align-self: center;
+    text-align: center;
+    border: 2px solid gray;
+
+  }
+
+  body {
+    background-color: #eee;
+  }
+
+  .container-fluid {
+    padding: 50px;
+  }
+
+  .container5 {
+    background-color: white;
+    padding: 50px;
+  }
+  .logo {
+    background-image: url("Images/logo.jpg");
+    background-size: contain;
     height: 250px;
+    width: 5000px;
+    align-self: center;
   }
-  .profile-section {
-    padding: 15px;
+
+  .center1{
+
+    align-self: center;
   }
-  .profile-views {
-    margin-left: 4%;
+  #title {
+    font-family: 'Lobster', cursive;;
   }
+
 }
